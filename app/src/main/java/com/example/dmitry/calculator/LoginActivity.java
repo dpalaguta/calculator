@@ -9,15 +9,36 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     Button button_login, button_recovery_password, button_add_new_user;
     EditText editText_login, editText_password;
+    LoginButton loginFacebookButton;
+    CallbackManager  callbackManager;
     final String TAG = "myLog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_login);
+
+
+
+/*        loginFacebookButton = (LoginButton) findViewById(R.id.login_facebook_button);
+        loginFacebookButton.setOnClickListener(this);*/
+
 
         editText_login = (EditText) findViewById(R.id.login_view);
         Drawable img = getResources().getDrawable(R.mipmap.peopleone);
@@ -65,7 +86,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent new_user_activity = new Intent(this, AddNewUserActivity.class);
                 new_user_activity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(new_user_activity);
-            }
+            }break;
+
+/*            case R.id.login_facebook_button:{
+                callbackManager = CallbackManager.Factory.create();
+
+                loginFacebookButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        button_login.setText("onSuccess");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        button_login.setText("onCancel");
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        button_login.setText("onError");
+                    }
+                });
+            }break;*/
+
         }
     }
 }

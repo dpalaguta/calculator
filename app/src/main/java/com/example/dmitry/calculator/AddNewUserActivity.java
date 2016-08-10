@@ -19,7 +19,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     EditText first_name, last_name, email, phone, login, password;
     LinearLayout child_block;
 
-    ArrayList <EditText> arrayList = new ArrayList();
+   // ArrayList <EditText> arrayList = new ArrayList();
 
     final String TAG = "myLog";
 
@@ -129,3 +129,5 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         }
     }
 }
+
+

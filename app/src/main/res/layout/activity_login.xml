@@ -93,6 +93,8 @@
         android:background="@color/colorAccent"
         android:textColor="@android:color/background_light" />
 
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -104,19 +106,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_facebook"
-            android:background="@mipmap/facebook" />
+            android:background="@mipmap/facebook"
+            android:layout_weight="1" />
+
+<!--        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_facebook_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp" />-->
+
+<!--        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_facebook_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="  connect_with_facebook" />-->
+
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_google"
-            android:background="@mipmap/google" />
+            android:background="@mipmap/google"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_twitter"
-            android:background="@mipmap/twitter" />
+            android:background="@mipmap/twitter"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <Button
