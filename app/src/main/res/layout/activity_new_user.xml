@@ -82,7 +82,8 @@
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:hint="Password" />
+                android:hint="Password"
+                android:inputType="textPassword" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="More kids can be added"
-                android:id="@+id/button_add_user"
+                android:id="@+id/button_add_child"
                 android:textColor="@color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"

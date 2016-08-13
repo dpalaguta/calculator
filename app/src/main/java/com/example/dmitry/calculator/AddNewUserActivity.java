@@ -1,25 +1,27 @@
 package com.example.dmitry.calculator;
 
-import android.content.Context;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+
 public class AddNewUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button button_add_user, button_send;
+    Button button_add_child, button_send;
     EditText first_name, last_name, email, phone, login, password;
     LinearLayout child_block;
 
-   // ArrayList <EditText> arrayList = new ArrayList();
+    ArrayList <EditText> arrayList = new ArrayList<EditText>();
 
     final String TAG = "myLog";
 
@@ -34,8 +36,8 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
 
         child_block = (LinearLayout) findViewById(R.id.layout_add_child);
 
-        button_add_user = (Button) findViewById(R.id.button_add_user);
-        button_add_user.setOnClickListener(this);
+        button_add_child = (Button) findViewById(R.id.button_add_child);
+        button_add_child.setOnClickListener(this);
 
         button_send = (Button) findViewById(R.id.button_send);
         button_send.setOnClickListener(this);
@@ -93,7 +95,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         Drawable img = getResources().getDrawable(R.mipmap.peopleone);
         img.setBounds(0, 0, 50, 50);
         last_name.setCompoundDrawables(img, null, null, null);
-        // arrayList.add(last_name);
+        arrayList.add(last_name);
 
         EditText date_birth = new EditText(this);
         lParams.setMargins(20, 0, 20, 0);
@@ -103,14 +105,11 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         img = getResources().getDrawable(R.mipmap.ic_menu_my_calendar);
         img.setBounds(0, 0, 50, 50);
         date_birth.setCompoundDrawables(img, null, null, null);
-        //     arrayList.add(date_birth);
+        arrayList.add(date_birth);
 
 
         layout.addView(last_name, lParams);
         layout.addView(date_birth, lParams);
-
-
-
 
     }
 
@@ -118,16 +117,147 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.button_add_user:{
+            case R.id.button_add_child:{
+
                 addChildBlock(child_block);
             }break;
 
             case R.id.button_send:{
-                finish();
+                if(login.length() > 0 && password.length() > 0){
+
+                    UserData userData = new UserData();
+                    userData.setFirst_name(first_name.getText().toString());
+                    userData.setLast_name(last_name.getText().toString());
+                    userData.setPhone(phone.getText().toString());
+                    userData.setEmail(email.getText().toString());
+                    userData.setLogin(login.getText().toString());
+                    userData.setPassword(password.getText().toString());
+
+
+                    for (int i = 0; i < arrayList.size(); i+=2){
+
+                        Children children = new Children(arrayList.get(i).getText().toString(),
+                                arrayList.get(i+1).getText().toString());
+                        userData.addChildren(children);
+
+                    }
+
+
+                    for (int i = 0; i < userData.getChildren().size(); i++){
+                        Log.d(TAG, userData.getChildren().get(i).getFirst_name_child());
+                        Log.d(TAG, userData.getChildren().get(i).getDate_birth());
+                    }
+
+
+
+                    DatabaseHelper myDbHelper = new DatabaseHelper(this);
+                    if (myDbHelper.addUser(userData) != -1) finish(); else
+                    {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "login is already used", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+
+
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "field login or password is empty", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
             }
 
         }
     }
 }
 
+class UserData{
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public void addChildren(Children children){
+        this.children.add(children);
+    }
+
+    public ArrayList<Children> getChildren(){
+        return children;
+    }
+
+    private String first_name;
+    private String last_name;
+    private String email;
+    private String phone;
+    private String login;
+    private String password;
+
+    private ArrayList<Children> children = new ArrayList<>();
+
+}
+
+ class Children{
+
+     Children(String first_name_child, String date_birth){
+
+         this.first_name_child = first_name_child;
+         this.date_birth = date_birth;
+     }
+
+     public String getFirst_name_child() {
+         return first_name_child;
+     }
+
+     public String getDate_birth() {
+         return date_birth;
+     }
+
+     private String first_name_child;
+    private String date_birth;
+
+}
 
